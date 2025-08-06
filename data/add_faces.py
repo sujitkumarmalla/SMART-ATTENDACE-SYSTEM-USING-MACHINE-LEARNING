@@ -10,7 +10,7 @@ faces_data = []
 i = 0
 name = input("Enter Your Name: ")
 
-# Check for and create the 'data' directory
+
 if not os.path.exists('data'):
     os.makedirs('data')
     print("Created 'data' directory.")
@@ -30,7 +30,7 @@ while True:
         crop_img = frame[y:y+h, x:x+w, :]
         resized_img = cv2.resize(crop_img, (50, 50))
         
-        # Collect 100 unique samples, skipping frames to get variety
+  
         if len(faces_data) < 100 and i % 10 == 0:
             faces_data.append(resized_img)
             
@@ -47,35 +47,34 @@ while True:
 video.release()
 cv2.destroyAllWindows()
 
-# Ensure exactly 100 samples are collected, if not, pad or warn
+
 if len(faces_data) < 100:
     print(f"Warning: Only {len(faces_data)} samples collected. Attempting to save anyway.")
-    # You might want to add logic here to pad with duplicates or discard if too few.
-    # For now, we'll proceed with what was collected.
+    
 
-# --- Saving the data ---
+
 faces_data = np.asarray(faces_data)
-# Reshape to (number_of_samples, -1) where -1 flattens each image
+
 faces_data = faces_data.reshape(faces_data.shape[0], -1)
 
-# Logic to handle names.pkl
+
 if not os.path.exists('data/names.pkl'):
-    # This block runs for the first person.
-    names = [name] * faces_data.shape[0] # Create labels matching the number of collected faces
+  
+    names = [name] * faces_data.shape[0] 
     with open('data/names.pkl', 'wb') as f:
         pickle.dump(names, f)
     print(f"Created 'names.pkl' with {len(names)} entries for '{name}'.")
 else:
-    # This block runs for every subsequent person.
+
     with open('data/names.pkl', 'rb') as f:
         names = pickle.load(f)
-    # Append new names, ensuring the count matches the new faces collected
+   
     names = names + [name] * faces_data.shape[0] 
     with open('data/names.pkl', 'wb') as f:
         pickle.dump(names, f)
     print(f"Appended {faces_data.shape[0]} entries for '{name}' to 'names.pkl'. Total names: {len(names)}.")
 
-# Logic to handle faces_data.pkl
+
 if not os.path.exists('data/faces_data.pkl'):
     with open('data/faces_data.pkl', 'wb') as f:
         pickle.dump(faces_data, f)
