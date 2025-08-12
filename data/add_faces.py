@@ -88,3 +88,4 @@ else:
     print(f"Appended {faces_data.shape[0]} samples to 'faces_data.pkl'. Total faces: {faces.shape[0]}.")
 
 print("Faces data and names saved successfully!")
+

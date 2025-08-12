@@ -9,7 +9,7 @@ ts = time.time()
 date = datetime.fromtimestamp(ts).strftime("%d-%m-%Y")
 timestamp = datetime.fromtimestamp(ts).strftime("%H:%M-%S")
 
-
+            
 attendance_dir = "Attendance"
 
 attendance_file_path = os.path.join(attendance_dir, f"Attendance_{date}.csv")
